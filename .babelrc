@@ -1,6 +1,15 @@
 {
   "plugins": [
+    "transform-object-rest-spread",
     "transform-react-jsx",
-    "syntax-jsx"
-  ]
+    "syntax-jsx",
+    "transform-es2015-classes"
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        "transform-es2015-modules-commonjs"
+      ]
+    }
+  }
 }

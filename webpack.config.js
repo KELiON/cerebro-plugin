@@ -6,7 +6,7 @@ module.exports = {
     index: './src/index'
   },
   output: {
-    path: './dist',
+    path: path.join(__dirname, './dist'),
     libraryTarget: 'commonjs2',
     filename: 'index.js'
   },
@@ -18,13 +18,16 @@ module.exports = {
     ]
   },
   target: 'electron-renderer',
+  externals: ['react', 'react-dom', 'nodobjc'],
   module: {
     rules: [{
       test: /\.jsx?$/,
       use: {
         loader: 'babel-loader'
       },
-      exclude: /node_modules/
+      exclude: (modulePath) => (
+        modulePath.match(/node_modules/) && !modulePath.match(/node_modules\/cerebro-/)
+      )
     }, {
       test: /\.css$/,
       use: [{
@@ -41,5 +44,11 @@ module.exports = {
         loader: 'url-loader'
       }
     }]
-  }
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      'window.React': 'react',
+      'window.ReactDOM': 'react-dom'
+    })
+  ]
 };
